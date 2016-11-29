@@ -1,5 +1,5 @@
 /* File: traveller.i */
-%module skyeye_traveller
+%module ga_traveller
 
 %include "std_vector.i"
 

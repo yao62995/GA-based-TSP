@@ -3,7 +3,7 @@
 # author: yao62995 <yao_62995@163.com>
 
 import random
-from skyeye_traveller import Traveller
+from ga_traveller import Traveller
 
 s = Traveller()
 

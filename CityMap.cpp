@@ -363,25 +363,26 @@ int CityMap::ThreadProc(void* pParam)
             comm[i].killRate = int(10000.0 * comm[i].mark / totalMark);
             totalBullet += comm[i].killRate;
         }
-        while(indNum > CM_SEED_NUM)
+        int seedInd = 1;
+        while(seedInd < CM_SEED_NUM)
         {
             bullet = rand() % totalBullet;
-            for(i = 1; i < indNum; i++)
+            for(i = seedInd; i < indNum; i++)
             {
                 if(bullet <= comm[i].killRate)
                 {
                     // 命中
                     totalBullet -= comm[i].killRate;
-                    tgene.index = comm[indNum - 1].index;
-                    tgene.mark = comm[indNum - 1].mark;
-                    tgene.killRate = comm[indNum - 1].killRate;
-                    comm[indNum - 1].index = comm[i].index;
-                    comm[indNum - 1].mark = comm[i].mark;
-                    comm[indNum - 1].killRate = comm[i].killRate;
+                    tgene.index = comm[seedInd].index;
+                    tgene.mark = comm[seedInd].mark;
+                    tgene.killRate = comm[seedInd].killRate;
+                    comm[seedInd].index = comm[i].index;
+                    comm[seedInd].mark = comm[i].mark;
+                    comm[seedInd].killRate = comm[i].killRate;
                     comm[i].index = tgene.index;
                     comm[i].mark = tgene.mark;
                     comm[i].killRate = tgene.killRate;
-                    indNum--;
+                    seedInd++;
                     break;
                 }
                 else
@@ -390,6 +391,8 @@ int CityMap::ThreadProc(void* pParam)
                 }
             }
         }
+        indNum = CM_SEED_NUM;
+
         pClass->m_GenNum++;
         clock_t end = clock();
         pClass->m_tsTimeUsed = (end - begin) / CLOCKS_PER_MILLI_SEC;
